@@ -1,0 +1,419 @@
+# ============================================================================
+# ETL Workflow - .gitignore
+# ============================================================================
+# Este ficheiro especifica quais arquivos e pastas devem ser ignorados pelo Git
+# para manter o repositório limpo e evitar upload de dados desnecessários
+# ============================================================================
+
+# ============================================================================
+# DADOS E DATASETS (INPUT/OUTPUT)
+# ============================================================================
+
+# Pastas de dados de entrada
+dataset/
+Dataset/
+data/
+Data/
+
+# Pastas de resultados/saída
+result/
+Result/
+results/
+Results/
+output/
+Output/
+
+# Pasta de arquivos temporários
+temp_output/
+temp/
+tmp/
+
+# Exemplos (manter estrutura mas ignorar conteúdo)
+examples/*.xlsx
+examples/*.xls
+examples/*.csv
+examples/*.json
+
+# ============================================================================
+# FICHEIROS POR EXTENSÃO
+# ============================================================================
+
+# Ficheiros Excel
+*.xlsx
+*.xls
+*.xlsm
+*.xlsb
+*.xltx
+*.xltm
+
+# Ficheiros CSV
+*.csv
+*.tsv
+
+# Ficheiros JSON
+*.json
+*.jsonl
+
+# Ficheiros de texto com dados
+*.txt
+*.dat
+*.data
+
+# Ficheiros comprimidos com dados
+*.zip
+*.rar
+*.7z
+*.tar.gz
+*.tgz
+
+# ============================================================================
+# LOGS E RELATÓRIOS
+# ============================================================================
+
+# Pasta de logs
+logs/
+log/
+Log/
+Logs/
+
+# Ficheiros de log por extensão
+*.log
+*.logs
+*.out
+*.err
+
+# Relatórios gerados
+*_report.json
+*_report.xlsx
+*_report.csv
+*_consolidation_report*
+*_validation_report*
+*_preservation_report*
+
+# Ficheiros de backup
+backup_*
+*_backup.*
+*.bak
+*.backup
+
+# ============================================================================
+# PYTHON - CACHE E BYTECODE
+# ============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# ============================================================================
+# IDES E EDITORES
+# ============================================================================
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Notepad++
+*.bak
+
+# ============================================================================
+# SISTEMA OPERATIVO
+# ============================================================================
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================================================
+# CONFIGURAÇÕES E CHAVES
+# ============================================================================
+
+# Ficheiros de configuração local
+config.local.py
+settings.local.py
+local_settings.py
+
+# Chaves e credenciais
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+secrets.py
+.secrets
+credentials.json
+token.json
+
+# Ficheiros de ambiente
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# ============================================================================
+# FICHEIROS ESPECÍFICOS DO PROJETO
+# ============================================================================
+
+# Ficheiros de teste gerados
+teste_*.xlsx
+teste_*.csv
+teste_*.json
+test_*.xlsx
+test_*.csv
+test_*.json
+
+# Ficheiros consolidados
+*_consolidated.*
+*_consolidado.*
+*_merged.*
+*_fundido.*
+
+# Ficheiros convertidos
+*_converted.*
+*_convertido.*
+
+# Bases de dados temporárias
+*.db
+*.sqlite
+*.sqlite3
+
+# Ficheiros de cache do projeto
+.cache/
+cache/
+
+# ============================================================================
+# EXCEÇÕES (ficheiros que DEVEM ser incluídos)
+# ============================================================================
+
+# Manter ficheiros de exemplo estruturais vazios (se existirem)
+!examples/.gitkeep
+!dataset/.gitkeep
+!result/.gitkeep
+!logs/.gitkeep
+
+# Manter ficheiros de configuração importantes
+!requirements.txt
+!setup.py
+!pyproject.toml
+!README.md
+!LICENSE
+!.gitignore
+
+# Manter documentação
+!docs/
+!*.md
+
+# ============================================================================
+# NOTAS IMPORTANTES
+# ============================================================================
+# 
+# Este .gitignore garante que:
+# 1. Nenhum dado sensível ou ficheiro Excel/CSV/JSON é enviado para o Git
+# 2. Logs e relatórios temporários são ignorados
+# 3. Cache do Python e ficheiros temporários são excluídos
+# 4. O repositório permanece limpo e focado no código-fonte
+# 
+# Para adicionar um ficheiro que está sendo ignorado:
+#   git add -f nome_do_ficheiro
+# 
+# Para verificar que ficheiros estão sendo ignorados:
+#   git status --ignored
+# 
+# ============================================================================ 
