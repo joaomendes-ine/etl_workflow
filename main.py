@@ -684,11 +684,22 @@ def handle_dimension_consolidation():
     input("\nPressione Enter para continuar...")
 
 def handle_validation():
-    """Executa o processo de validação de dados (a ser implementado)."""
+    """Executa o processo de validação de dados através de comparação inteligente."""
     display_header()
-    print(f"{Fore.GREEN}[Validação de Dados]{Style.RESET_ALL}\n")
-    print(f"{Fore.YELLOW}Aviso:{Style.RESET_ALL} Esta funcionalidade ainda não está implementada.")
-    print("A validação de dados permite verificar a integridade dos dados após conversões.")
+    print(f"{Fore.GREEN}[Validação de Integridade de Dados]{Style.RESET_ALL}\n")
+    
+    try:
+        # Importa o módulo de comparação de dados
+        from src.data_comparator import run_interactive_comparison
+        
+        # Executa a comparação interativa
+        run_interactive_comparison(logger)
+        
+    except Exception as e:
+        logger.error(f"Erro durante validação de dados: {e}", exc_info=True)
+        print(f"\n{Fore.RED}Ocorreu um erro crítico:{Style.RESET_ALL} {str(e)}")
+        print("Consulte os logs para detalhes técnicos.")
+    
     input("\nPressione Enter para continuar...")
 
 def consolidate_dimensions_interactive():
