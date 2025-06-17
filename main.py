@@ -89,6 +89,7 @@ def display_menu():
     
     print(f"\n{Fore.YELLOW}Validação de Dados:{Style.RESET_ALL}")
     print(f"  {Fore.WHITE}7.{Style.RESET_ALL} Validar integridade dos dados")
+    print(f"  {Fore.WHITE}8.{Style.RESET_ALL} Analisar valores em falta")
     
     print(f"\n{Fore.YELLOW}Sistema:{Style.RESET_ALL}")
     print(f"  {Fore.WHITE}0.{Style.RESET_ALL} Sair do programa")
@@ -702,6 +703,25 @@ def handle_validation():
     
     input("\nPressione Enter para continuar...")
 
+def handle_missing_values_analysis():
+    """Executa o processo de análise de valores em falta."""
+    display_header()
+    print(f"{Fore.GREEN}[Análise de Valores em Falta]{Style.RESET_ALL}\n")
+    
+    try:
+        # Importa o módulo de análise de valores em falta
+        from src.missing_values_analyzer import run_missing_values_analysis
+        
+        # Executa a análise interativa
+        run_missing_values_analysis(logger)
+        
+    except Exception as e:
+        logger.error(f"Erro durante análise de valores em falta: {e}", exc_info=True)
+        print(f"\n{Fore.RED}Ocorreu um erro crítico:{Style.RESET_ALL} {str(e)}")
+        print("Consulte os logs para detalhes técnicos.")
+    
+    input("\nPressione Enter para continuar...")
+
 def consolidate_dimensions_interactive():
     """Executa o processo interativo de consolidação de dimensões."""
     try:
@@ -859,6 +879,9 @@ def main():
             elif choice == '7':
                 logger.info("Opção '7' selecionada: Validar dados")
                 handle_validation()
+            elif choice == '8':
+                logger.info("Opção '8' selecionada: Analisar valores em falta")
+                handle_missing_values_analysis()
             elif choice == '0':
                 logger.info("Opção '0' selecionada: Sair do programa.")
                 display_header()
