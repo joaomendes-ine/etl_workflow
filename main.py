@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 import json
+import shutil
 from datetime import datetime
 from colorama import init, Fore, Style # Para cores no terminal
 from src.utils import setup_logging # Para configurar o logging centralmente
@@ -12,6 +13,48 @@ from src.dimension_consolidator import DimensionConsolidator  # Nova importaçã
 
 # Inicializa colorama para cores no terminal
 init()
+
+def get_terminal_width():
+    """Obtém a largura do terminal de forma segura."""
+    try:
+        # Tenta obter o tamanho do terminal
+        width = shutil.get_terminal_size().columns
+        # Garante um mínimo de 80 e máximo de 120 caracteres
+        return max(80, min(width - 2, 120))
+    except:
+        # Fallback para 80 caracteres se não conseguir detectar
+        return 80
+
+def create_border_line(char='═', width=None):
+    """Cria uma linha de borda com largura responsiva."""
+    if width is None:
+        width = get_terminal_width()
+    return char * width
+
+def create_box_line(content, width=None, align='left'):
+    """Cria uma linha dentro de uma caixa com largura responsiva."""
+    if width is None:
+        width = get_terminal_width()
+    
+    # Remove códigos de cor para calcular o comprimento real
+    import re
+    clean_content = re.sub(r'\x1b\[[0-9;]*m', '', content)
+    content_length = len(clean_content)
+    
+    # Calcula espaços necessários (subtraindo 2 para as bordas ║)
+    available_space = width - 2
+    
+    if align == 'center':
+        padding_total = available_space - content_length
+        padding_left = max(0, padding_total // 2)
+        padding_right = max(0, padding_total - padding_left)
+        return f"║{' ' * padding_left}{content}{' ' * padding_right}║"
+    elif align == 'left':
+        padding_right = max(0, available_space - content_length)
+        return f"║{content}{' ' * padding_right}║"
+    else:  # right
+        padding_left = max(0, available_space - content_length)
+        return f"║{' ' * padding_left}{content}║"
 
 # Configurar o logger principal para toda a aplicação
 # verbose=True pode ser ajustado conforme necessário ou tornado configurável
@@ -63,38 +106,115 @@ def ensure_all_directories():
     logger.info("Diretórios básicos criados. Para criar toda a estrutura, execute 'python -m src.initialize'")
 
 def display_header():
-    """Exibe o cabeçalho do programa com formatação moderna."""
+    """Exibe o cabeçalho futurístico do programa."""
     os.system('cls' if os.name == 'nt' else 'clear')  # Limpa a tela
-    print(f"\n{Fore.CYAN}{'='*80}{Style.RESET_ALL}")
-    print(f"{Fore.CYAN}  SISTEMA DE WORKFLOW ETL - PROCESSAMENTO DE DADOS EXCEL{Style.RESET_ALL}")
-    print(f"{Fore.CYAN}  Consolidação e Conversão com Garantia de Integridade{Style.RESET_ALL}")
-    print(f"{Fore.CYAN}{'='*80}{Style.RESET_ALL}\n")
+    
+    width = get_terminal_width()
+    
+    # Header futurístico com design moderno responsivo
+    print(f"\n{Fore.CYAN}╔{create_border_line('═', width)}╗{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'{Fore.WHITE}    ███████╗████████╗██╗         ██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗    {Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'{Fore.WHITE}    ██╔════╝╚══██╔══╝██║         ██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝    {Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'{Fore.WHITE}    █████╗     ██║   ██║         ██║ █╗ ██║██║   ██║██████╔╝█████╔╝     {Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'{Fore.WHITE}    ██╔══╝     ██║   ██║         ██║███╗██║██║   ██║██╔══██╗██╔═██╗     {Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'{Fore.WHITE}    ███████╗   ██║   ███████╗    ╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗    {Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'{Fore.WHITE}    ╚══════╝   ╚═╝   ╚══════╝     ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝    {Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'{Fore.YELLOW}SISTEMA AVANÇADO DE PROCESSAMENTO E TRANSFORMAÇÃO DE DADOS{Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'{Fore.WHITE}Consolidação • Conversão • Validação • Análise{Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'{Fore.GREEN}Garantia de Integridade Total{Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'{Style.DIM}Desenvolvido por: João Mendes{Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}╚{create_border_line('═', width)}╝{Style.RESET_ALL}\n")
 
 def display_menu():
-    """Apresenta o menu de opções ao utilizador com formatação moderna."""
+    """Apresenta o menu futurístico de opções ao utilizador."""
     display_header()
-    print(f"{Fore.GREEN}[Menu Principal]{Style.RESET_ALL} Por favor, escolha uma das seguintes opções:\n")
     
-    print(f"{Fore.YELLOW}Conversão de Formatos:{Style.RESET_ALL}")
-    print(f"  {Fore.WHITE}1.{Style.RESET_ALL} Converter ficheiros Excel para CSV (em {BASE_DATASET_MAIN_PATH})")
-    print(f"  {Fore.WHITE}2.{Style.RESET_ALL} Converter ficheiros Excel para JSON (em {BASE_DATASET_MAIN_PATH})")
+    width = get_terminal_width()
     
-    print(f"\n{Fore.YELLOW}Consolidação de Ficheiros Excel:{Style.RESET_ALL}")
-    print(f"  {Fore.WHITE}3.{Style.RESET_ALL} Fundir os ficheiros dos quadros")
-    print(f"  {Fore.WHITE}4.{Style.RESET_ALL} Fundir os ficheiros das series")
+    # Menu principal com design futurístico responsivo
+    print(f"{Fore.CYAN}╔{create_border_line('═', width)}╗{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'{Fore.GREEN}MENU PRINCIPAL{Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}╠{create_border_line('═', width)}╣{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
     
-    print(f"\n{Fore.YELLOW}Consolidação Inteligente de Dimensões:{Style.RESET_ALL}")
-    print(f"  {Fore.WHITE}5.{Style.RESET_ALL} Consolidar colunas de dimensão automaticamente")
-    print(f"  {Fore.WHITE}6.{Style.RESET_ALL} Consolidar colunas de dimensão interativamente")
+    # Seção Conversão de Formatos
+    print(f"{Fore.CYAN}{create_box_line(f'  {Fore.YELLOW}▶ CONVERSÃO DE FORMATOS{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'    {Fore.WHITE}[1]{Style.RESET_ALL} {Fore.CYAN}◆{Style.RESET_ALL} Converter Excel → CSV{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'        {Style.DIM}└─ Processa ficheiros em {BASE_DATASET_MAIN_PATH}{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'    {Fore.WHITE}[2]{Style.RESET_ALL} {Fore.CYAN}◆{Style.RESET_ALL} Converter Excel → JSON{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'        {Style.DIM}└─ Processa ficheiros em {BASE_DATASET_MAIN_PATH}{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
     
-    print(f"\n{Fore.YELLOW}Validação de Dados:{Style.RESET_ALL}")
-    print(f"  {Fore.WHITE}7.{Style.RESET_ALL} Validar integridade dos dados")
-    print(f"  {Fore.WHITE}8.{Style.RESET_ALL} Analisar valores em falta")
+    # Separador
+    print(f"{Fore.CYAN}╠{create_border_line('─', width)}╣{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
     
-    print(f"\n{Fore.YELLOW}Sistema:{Style.RESET_ALL}")
-    print(f"  {Fore.WHITE}0.{Style.RESET_ALL} Sair do programa")
+    # Seção Consolidação de Ficheiros
+    print(f"{Fore.CYAN}{create_box_line(f'  {Fore.YELLOW}▶ CONSOLIDAÇÃO DE FICHEIROS{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'    {Fore.WHITE}[3]{Style.RESET_ALL} {Fore.CYAN}◆{Style.RESET_ALL} Fundir ficheiros dos quadros{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'        {Style.DIM}└─ Combina múltiplos ficheiros Excel de quadros{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'    {Fore.WHITE}[4]{Style.RESET_ALL} {Fore.CYAN}◆{Style.RESET_ALL} Fundir ficheiros das séries{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'        {Style.DIM}└─ Combina múltiplos ficheiros Excel de séries{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
     
-    print(f"\n{Fore.CYAN}{'='*80}{Style.RESET_ALL}")
+    # Separador
+    print(f"{Fore.CYAN}╠{create_border_line('─', width)}╣{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    
+    # Seção Consolidação Inteligente
+    print(f"{Fore.CYAN}{create_box_line(f'  {Fore.YELLOW}▶ CONSOLIDAÇÃO INTELIGENTE DE DIMENSÕES{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'    {Fore.WHITE}[5]{Style.RESET_ALL} {Fore.CYAN}◆{Style.RESET_ALL} Consolidação automática{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'        {Style.DIM}└─ IA analisa e consolida dimensões similares{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'    {Fore.WHITE}[6]{Style.RESET_ALL} {Fore.CYAN}◆{Style.RESET_ALL} Consolidação interativa{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'        {Style.DIM}└─ Controlo total sobre consolidação de dimensões{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    
+    # Separador
+    print(f"{Fore.CYAN}╠{create_border_line('─', width)}╣{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    
+    # Seção Validação
+    print(f"{Fore.CYAN}{create_box_line(f'  {Fore.YELLOW}▶ VALIDAÇÃO E ANÁLISE{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'    {Fore.WHITE}[7]{Style.RESET_ALL} {Fore.CYAN}◆{Style.RESET_ALL} Validar integridade dos dados{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'        {Style.DIM}└─ Comparação inteligente e validação cruzada{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'    {Fore.WHITE}[8]{Style.RESET_ALL} {Fore.CYAN}◆{Style.RESET_ALL} Analisar valores em falta{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'        {Style.DIM}└─ Detecta e analisa lacunas nos dados{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    
+    # Separador
+    print(f"{Fore.CYAN}╠{create_border_line('─', width)}╣{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    
+    # Seção Sistema
+    print(f"{Fore.CYAN}{create_box_line(f'  {Fore.YELLOW}▶ SISTEMA{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'    {Fore.WHITE}[0]{Style.RESET_ALL} {Fore.CYAN}◆{Style.RESET_ALL} Sair do programa{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line(f'        {Style.DIM}└─ Encerra o sistema de forma segura{Fore.CYAN}', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}╚{create_border_line('═', width)}╝{Style.RESET_ALL}")
+    
+    # Prompt futurístico responsivo
+    prompt_width = min(width, 71)
+    prompt_padding = '─' * max(0, prompt_width - 20)
+    print(f"\n{Fore.GREEN}┌─{Style.RESET_ALL} {Fore.CYAN}Selecione uma opção{Style.RESET_ALL} {Fore.GREEN}{prompt_padding}┐{Style.RESET_ALL}")
+    option_text = "Digite o número da opção desejada e pressione Enter..."
+    option_padding = ' ' * max(0, prompt_width - len(option_text) - 2)
+    print(f"{Fore.GREEN}│{Style.RESET_ALL}   {option_text}{option_padding} {Fore.GREEN}│{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}└{create_border_line('─', prompt_width)}┘{Style.RESET_ALL}")
 
 def select_folder_number():
     """
@@ -203,7 +323,7 @@ def prompt_for_folder(for_conversion=False):
         print(f"  {Fore.WHITE}2.{Style.RESET_ALL} Outra pasta (introduzir caminho)")
         print(f"  {Fore.WHITE}0.{Style.RESET_ALL} Voltar ao menu principal")
         
-        choice = input(f"\n{Fore.GREEN}>>{Style.RESET_ALL} Digite o número da sua escolha: ")
+        choice = input(f"\n{Fore.CYAN}❯{Style.RESET_ALL} {Fore.GREEN}Sua escolha{Style.RESET_ALL}: ")
         logger.info(f"Utilizador escolheu a opção: '{choice}' para pasta a processar na conversão")
         
         if choice == "0":
@@ -643,7 +763,7 @@ def handle_dimension_consolidation():
             output_format = format_map.get(format_choice, 'excel')
             
             try:
-                output_file = consolidator.save_results(format_type=output_format)
+                output_file = consolidator.save_results(format=output_format)
                 print(f"\n{Fore.GREEN}Resultados guardados em:{Style.RESET_ALL} {output_file}")
                 
                 # Guarda relatório específico de preservação de valores para Ferramenta OLAP
@@ -820,7 +940,7 @@ def consolidate_dimensions_interactive():
         
         # Passo 14: Guarda resultados
         try:
-            output_file = consolidator.save_results(format_type=output_format)
+            output_file = consolidator.save_results(format=output_format)
             print(f"\n{Fore.GREEN}✅ Resultados guardados em:{Style.RESET_ALL} {output_file}")
             
             # Mostra mapeamento de consolidações realizadas
@@ -855,7 +975,7 @@ def main():
         
         while True:
             display_menu()
-            choice = input(f"\n{Fore.GREEN}>>{Style.RESET_ALL} Digite o número da sua escolha: ")
+            choice = input(f"\n{Fore.CYAN}❯{Style.RESET_ALL} {Fore.GREEN}Digite sua opção{Style.RESET_ALL}: ")
             logger.debug(f"Utilizador escolheu a opção: '{choice}'")
 
             if choice == '1':
@@ -885,8 +1005,18 @@ def main():
             elif choice == '0':
                 logger.info("Opção '0' selecionada: Sair do programa.")
                 display_header()
-                print(f"{Fore.GREEN}Obrigado por utilizar o Sistema de Workflow ETL!{Style.RESET_ALL}")
-                print("A aplicação será encerrada.")
+                width = get_terminal_width()
+                print(f"{Fore.CYAN}╔{create_border_line('═', width)}╗{Style.RESET_ALL}")
+                print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+                print(f"{Fore.CYAN}{create_box_line(f'{Fore.GREEN}SESSÃO ENCERRADA COM SUCESSO!{Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+                print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+                print(f"{Fore.CYAN}{create_box_line(f'{Fore.WHITE}Obrigado por utilizar o Sistema ETL Workflow{Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+                print(f"{Fore.CYAN}{create_box_line(f'{Fore.YELLOW}Desenvolvido por: João Mendes{Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+                print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+                print(f"{Fore.CYAN}{create_box_line(f'{Fore.CYAN}Até à próxima!{Fore.CYAN}', width, 'center')}{Style.RESET_ALL}")
+                print(f"{Fore.CYAN}{create_box_line('', width)}{Style.RESET_ALL}")
+                print(f"{Fore.CYAN}╚{create_border_line('═', width)}╝{Style.RESET_ALL}")
+                print(f"\n{Fore.GREEN}>>> A aplicação será encerrada em instantes...{Style.RESET_ALL}")
                 break
             else:
                 logger.warning(f"Escolha inválida ('{choice}') feita pelo utilizador.")
