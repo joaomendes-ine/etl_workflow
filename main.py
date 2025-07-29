@@ -940,7 +940,7 @@ def consolidate_dimensions_interactive():
         
         # Passo 14: Guarda resultados
         try:
-            output_file = consolidator.save_results(format=output_format)
+            output_file = consolidator.save_results(format_type=output_format)
             print(f"\n{Fore.GREEN}✅ Resultados guardados em:{Style.RESET_ALL} {output_file}")
             
             # Mostra mapeamento de consolidações realizadas
